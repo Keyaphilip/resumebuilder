@@ -24,10 +24,12 @@ export default function App(){
     setData(prev=>({ ...prev, personal: {...prev.personal, summary: text }}))
   }
 
+  const API_BASE = import.meta.env.VITE_API_URL ?? ''
+
   const checkKeywords = async (jobDesc)=>{
     const resumeText = `${data.personal.summary} ${data.experience.map(e=>e.description||'').join(' ')} ${data.skills.join(' ')}`
     try{
-      const res = await axios.post('http://localhost:4000/api/match',{ resumeText, jobDescription: jobDesc })
+      const res = await axios.post(`${API_BASE}/api/match`,{ resumeText, jobDescription: jobDesc })
       return res.data
     }catch(e){ return { matched: [], score: 0 }}
   }

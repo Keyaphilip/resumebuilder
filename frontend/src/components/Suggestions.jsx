@@ -1,6 +1,8 @@
 import React, {useState} from 'react'
 import axios from 'axios'
 
+const API_BASE = import.meta.env.VITE_API_URL ?? ''
+
 export default function Suggestions({text, onApply}){
   const [loading, setLoading] = useState(false)
   const [suggestion, setSuggestion] = useState('')
@@ -8,7 +10,7 @@ export default function Suggestions({text, onApply}){
   const askAI = async () =>{
     setLoading(true)
     try{
-      const res = await axios.post('http://localhost:4000/api/suggest',{text})
+      const res = await axios.post(`${API_BASE}/api/suggest`,{text})
       setSuggestion(res.data.suggestion)
     }catch(e){
       setSuggestion('Failed to fetch suggestion')
